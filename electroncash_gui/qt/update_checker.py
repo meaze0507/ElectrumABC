@@ -33,8 +33,10 @@ from electroncash.util import PrintError, print_error
 from electroncash.i18n import _
 from electroncash import version, bitcoin, address
 from electroncash.networks import MainNet
+from electroncash.constants import PROJECT_NAME
 from .util import *
 import base64, sys, requests, threading, time
+
 
 class UpdateChecker(QWidget, PrintError):
     ''' A window that checks for updates.
@@ -74,7 +76,7 @@ class UpdateChecker(QWidget, PrintError):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle('Electron Cash - ' + _('Update Checker'))
+        self.setWindowTitle(f'{PROJECT_NAME} - ' + _('Update Checker'))
         self.content = QVBoxLayout()
         self.content.setContentsMargins(*([10]*4))
 
@@ -224,7 +226,9 @@ class UpdateChecker(QWidget, PrintError):
                 self.cancel_or_check_button.setEnabled(False)
             else:
                 self.heading_label.setText('<h2>' + _("Already up to date") + '</h2>')
-                self.detail_label.setText(_("You are already on the latest version of Electron Cash."))
+                self.detail_label.setText(
+                    _(f"You are already on the latest version of "
+                      f"{PROJECT_NAME}."))
                 self.cancel_or_check_button.setEnabled(True)
         else:
             self.pb.show()
@@ -233,7 +237,9 @@ class UpdateChecker(QWidget, PrintError):
             self.cancel_or_check_button.setEnabled(True)
             self.latest_version_label.setText("")
             self.heading_label.setText('<h2>' + _("Checking for updates...") + '</h2>')
-            self.detail_label.setText(_("Please wait while Electron Cash checks for available updates."))
+            self.detail_label.setText(
+                _(f"Please wait while {PROJECT_NAME} checks for "
+                  f"available updates."))
 
     def cancel_active(self):
         if self.active_req:

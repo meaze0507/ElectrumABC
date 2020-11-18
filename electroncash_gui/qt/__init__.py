@@ -62,6 +62,7 @@ from electroncash.util import (UserCancelled, PrintError, print_error,
                                get_new_wallet_name, Handlers)
 from electroncash import version
 from electroncash.address import Address
+from electroncash.constants import PROJECT_NAME
 
 from .installwizard import InstallWizard, GoBack
 
@@ -71,6 +72,7 @@ from .main_window import ElectrumWindow
 from .network_dialog import NetworkDialog
 from .exception_window import Exception_Hook
 from .update_checker import UpdateChecker
+
 
 
 class ElectrumGui(QObject, PrintError):
@@ -139,7 +141,7 @@ class ElectrumGui(QObject, PrintError):
         # init tray
         self.dark_icon = self.config.get("dark_icon", False)
         self.tray = QSystemTrayIcon(self.tray_icon(), self)
-        self.tray.setToolTip('Electron Cash')
+        self.tray.setToolTip(f'{PROJECT_NAME}')
         self.tray.activated.connect(self.tray_activated)
         self.build_tray_menu()
         self.tray.show()
@@ -463,11 +465,11 @@ class ElectrumGui(QObject, PrintError):
 
     def _check_and_warn_qt_version(self):
         if sys.platform == 'linux' and self.qt_version() < (5, 12):
-            msg = _("Electron Cash on Linux requires PyQt5 5.12+.\n\n"
-                    "You have version {version_string} installed.\n\n"
+            msg = _(f"{PROJECT_NAME} on Linux requires PyQt5 5.12+.\n\n"
+                    f"You have version {QT_VERSION_STR} installed.\n\n"
                     "Please upgrade otherwise you may experience "
                     "font rendering issues with emojis and other unicode "
-                    "characters used by Electron Cash.").format(version_string=QT_VERSION_STR)
+                    f"characters used by {PROJECT_NAME}.")
             QMessageBox.warning(None, _("PyQt5 Upgrade Needed"), msg)  # this works even if app is not exec_() yet.
 
 
@@ -503,7 +505,7 @@ class ElectrumGui(QObject, PrintError):
         m.addSeparator()
         m.addAction(_("&Check for updates..."), lambda: self.show_update_checker(None))
         m.addSeparator()
-        m.addAction(_("Exit Electron Cash"), self.close)
+        m.addAction(_(f"Exit {PROJECT_NAME}"), self.close)
         self.tray.setContextMenu(m)
 
     def tray_icon(self):
@@ -721,7 +723,7 @@ class ElectrumGui(QObject, PrintError):
         to the system tray. '''
         self.new_version_available = newver
         self.update_available_signal.emit(True)
-        self.notify(_("A new version of Electron Cash is available: {}").format(newver))
+        self.notify(_(f"A new version of {PROJECT_NAME} is available: {newver}"))
 
     def show_update_checker(self, parent, *, skip_check = False):
         if self.warn_if_no_network(parent):
@@ -773,7 +775,10 @@ class ElectrumGui(QObject, PrintError):
 
     def warn_if_no_network(self, parent):
         if not self.daemon.network:
-            self.warning(message=_('You are using Electron Cash in offline mode; restart Electron Cash if you want to get connected'), title=_('Offline'), parent=parent, rich_text=True)
+            self.warning(message=_(f'You are using {PROJECT_NAME} in offline '
+                                   f'mode; restart {PROJECT_NAME} if you want '
+                                   f'to get connected'),
+                         title=_('Offline'), parent=parent, rich_text=True)
             return True
         return False
 
@@ -796,21 +801,22 @@ class ElectrumGui(QObject, PrintError):
 
         # else..
         howto_url='https://github.com/Electron-Cash/Electron-Cash/blob/master/contrib/secp_HOWTO.md#libsecp256k1-0-for-electron-cash'
-        template = '''
+        message = message or _(
+            f"{PROJECT_NAME} was unable to find the secp256k1 library on this "
+            f"system. Elliptic curve cryptography operations will be performed"
+            f" in slow Python-only mode."),
+        url_blurb = _("Please visit this page for instructions on how to "
+                      "correct the situation:")
+        msg = f'''
         <html><body>
             <p>
             {message}
             <p>
             {url_blurb}
             </p>
-            <p><a href="{url}">Electron Cash Secp Mini-HOWTO</a></p>
+            <p><a href="{howto_url}">{PROJECT_NAME} Secp Mini-HOWTO</a></p>
         </body></html>
         '''
-        msg = template.format(
-            message = message or _("Electron Cash was unable to find the secp256k1 library on this system. Elliptic curve cryptography operations will be performed in slow Python-only mode."),
-            url=howto_url,
-            url_blurb = _("Please visit this page for instructions on how to correct the situation:")
-        )
         self.warning(parent=parent, title=_("Missing libsecp256k1"),
                      message=msg, rich_text=True)
         return True
@@ -856,13 +862,29 @@ class ElectrumGui(QObject, PrintError):
             # the future -- it only appears on first-run if key was None
             self.config.set_key('qt_enable_highdpi', True)
             if is_lin:
-                msg = (_("Automatic high DPI scaling has been enabled for Electron Cash, which should result in improved graphics quality.")
-                       + "\n\n" + _("However, on some esoteric Linux systems, this mode may cause disproportionately large status bar icons.")
-                       + "\n\n" + _("If that is the case for you, then you may disable automatic DPI scaling in the preferences, under 'General'."))
+                msg = (_(f"Automatic high DPI scaling has been enabled for "
+                         f"{PROJECT_NAME}, which should result in improved "
+                         f"graphics quality.")
+                       + "\n\n"
+                       + _("However, on some esoteric Linux systems, this "
+                           "mode may cause disproportionately large status "
+                           "bar icons.")
+                       + "\n\n"
+                       + _("If that is the case for you, then you may disable"
+                           " automatic DPI scaling in the preferences, under "
+                           "'General'."))
             else: # is_win
-                msg = (_("Automatic high DPI scaling has been enabled for Electron Cash, which should result in improved graphics quality.")
-                       + "\n\n" + _("However, on some Windows systems, bugs in Qt may result in minor graphics glitches in system 'message box' dialogs.")
-                       + "\n\n" + _("If that is the case for you, then you may disable automatic DPI scaling in the preferences, under 'General'."))
+                msg = (_(f"Automatic high DPI scaling has been enabled for "
+                         f"{PROJECT_NAME}, which should result in improved "
+                         f"graphics quality.")
+                       + "\n\n"
+                       + _("However, on some Windows systems, bugs in Qt may "
+                           "result in minor graphics glitches in system "
+                           "'message box' dialogs.")
+                       + "\n\n"
+                       + _("If that is the case for you, then you may disable "
+                           "automatic DPI scaling in the preferences, under "
+                           "'General'."))
             parent.show_message( title = _('Automatic High DPI'), msg = msg)
 
     def has_auto_update_check(self):
@@ -896,9 +918,12 @@ class ElectrumGui(QObject, PrintError):
         if self.tray:
             try:
                 # this requires Qt 5.9
-                self.tray.showMessage("Electron Cash", message, QIcon(":icons/electron-cash.svg"), 20000)
+                self.tray.showMessage(f"{PROJECT_NAME}", message,
+                                      QIcon(":icons/electron-cash.svg"),
+                                      20000)
             except TypeError:
-                self.tray.showMessage("Electron Cash", message, QSystemTrayIcon.Information, 20000)
+                self.tray.showMessage(f"{PROJECT_NAME}", message,
+                                      QSystemTrayIcon.Information, 20000)
 
     def is_cashaddr(self):
         return bool(self.config.get('show_cashaddr', True))
