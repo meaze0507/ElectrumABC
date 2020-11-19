@@ -133,7 +133,7 @@ prepare_wine() {
             git checkout -b pinned "${PYINSTALLER_COMMIT}^{commit}"
             rm -fv PyInstaller/bootloader/Windows-*/run*.exe || true  # Make sure EXEs that came with repo are deleted -- we rebuild them and need to detect if build failed
             if [ ${PYI_SKIP_TAG:-0} -eq 0 ] ; then
-                echo "const char *ec_tag = \"tagged by Electron-Cash@$GIT_COMMIT_HASH\";" >> ./bootloader/src/pyi_main.c
+                echo "const char *ec_tag = \"tagged by ElectrumBCHA@$GIT_COMMIT_HASH\";" >> ./bootloader/src/pyi_main.c
             else
                 warn "Skipping PyInstaller tag"
             fi
