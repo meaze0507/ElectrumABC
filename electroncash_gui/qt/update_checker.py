@@ -77,13 +77,11 @@ class UpdateChecker(QWidget, PrintError):
     """[0 -> 100] range"""
 
     # Release URL
-    download_url = "https://electroncash.org/#download"
+    # TODO
+    download_url = ""
 
-    VERSION_ANNOUNCEMENT_SIGNING_ADDRESSES = (
-        address.Address.from_string("bitcoincash:qphax4cg8sxuc0qnzk6sx25939ma7y877uz04s2z82", net=MainNet), # Calin's key
-        address.Address.from_string("bitcoincash:qqy9myvyt7qffgye5a2mn2vn8ry95qm6asy40ptgx2", net=MainNet), # Mark Lundeberg's key
-        address.Address.from_string("bitcoincash:qz4wq9m860zr5p2nfdpttm5ymdqdyt3psc95qjagae", net=MainNet), # electroncash.org donation address
-    )
+    # Format: tuple of address.Address.from_string("bitcoincash:..., net=MainNet)
+    VERSION_ANNOUNCEMENT_SIGNING_ADDRESSES = tuple()
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -348,7 +346,7 @@ class _Req(threading.Thread, PrintError):
     """Thread to get the list of releases from a JSON file on the github
     repository.
     """
-    url = "https://raw.github.com/Electron-Cash/Electron-Cash/master/contrib/update_checker/releases.json"
+    url = "https://raw.github.com/PiRK/ElectrumBCHA/master/contrib/update_checker/releases.json"
 
     def __init__(self, checker):
         super().__init__(daemon=True)
