@@ -20,27 +20,28 @@ with open('contrib/requirements/requirements.txt') as f:
 with open('contrib/requirements/requirements-hw.txt') as f:
     requirements_hw = f.read().splitlines()
 
-# We use this convoluted way of importing version.py and constants.py
-# because the setup.py scripts tends to be called with python option
-# -O, which is not allowed for electroncash (see comment in module
-# electroncash/bitcoin.py). A regular import would trigger this issue.
-dirname = os.path.dirname(os.path.abspath(__file__))
-ec_package_dirname = os.path.join(dirname, "electroncash")
-sys.path.insert(0, ec_package_dirname)
-
-
+# # We use this convoluted way of importing version.py and constants.py
+# # because the setup.py scripts tends to be called with python option
+# # -O, which is not allowed for electroncash (see comment in module
+# # electroncash/bitcoin.py). A regular import would trigger this issue.
+# dirname = os.path.dirname(os.path.abspath(__file__))
+# ec_package_dirname = os.path.join(dirname, "electroncash")
+# sys.path.insert(0, ec_package_dirname)
+#
+#
+# def get_version():
+#     import version
+#     return version.PACKAGE_VERSION
+#
+#
+# def get_constants():
+#     import constants as c
+#     return c.PROJECT_NAME, c.REPOSITORY_URL, c.SCRIPT_NAME
+PROJECT_NAME: str = "Electrum BCHA"
+SCRIPT_NAME: str = "electrum-bcha"
+REPOSITORY_URL: str = "https://github.com/PiRK/ElectrumBCHA"
 def get_version():
-    import version
-    return version.PACKAGE_VERSION
-
-
-def get_constants():
-    import constants as c
-    return c.PROJECT_NAME, c.REPOSITORY_URL, c.SCRIPT_NAME
-
-PROJECT_NAME, REPOSITORY_URL, SCRIPT_NAME = get_constants()
-
-
+    return  '4.3.0a0'
 
 if sys.version_info[:3] < (3, 6):
     sys.exit(f"Error: {PROJECT} requires Python version >= 3.6...")
