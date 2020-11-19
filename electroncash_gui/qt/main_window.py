@@ -701,10 +701,10 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
         help_menu = menubar.addMenu(_("&Help"))
         help_menu.addAction(_("&About"), self.show_about)
         help_menu.addAction(_("About Qt"), self.app.aboutQt)
-        help_menu.addAction(_("&Check for Updates"), lambda: self.gui_object.show_update_checker(self))
-        help_menu.addAction(_("&Official Website"), lambda: webopen("https://electroncash.org"))
+        # help_menu.addAction(_("&Check for Updates"), lambda: self.gui_object.show_update_checker(self))
+        # help_menu.addAction(_("&Official Website"), lambda: webopen("https://..."))
         help_menu.addSeparator()
-        help_menu.addAction(_("Documentation"), lambda: webopen("http://electroncash.readthedocs.io/")).setShortcut(QKeySequence.HelpContents)
+        # help_menu.addAction(_("Documentation"), lambda: webopen("http://...")).setShortcut(QKeySequence.HelpContents)
         help_menu.addAction(_("&Report Bug..."), self.show_report_bug)
         help_menu.addSeparator()
         help_menu.addAction(_("&Donate to Server") + "...", self.donate_to_server)
@@ -772,7 +772,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
     def show_report_bug(self):
         msg = ' '.join([
             _("Please report any bugs as issues on github:<br/>"),
-            "<a href=\"https://github.com/Electron-Cash/Electron-Cash/issues\">https://github.com/Electron-Cash/Electron-Cash/issues</a><br/><br/>",
+            "<a href=\"https://github.com/PiRK/ElectrumBCHA/issues\">https://github.com/PiRK/ElectrumBCHA/issues</a><br/><br/>",
             _(f"Before reporting a bug, upgrade to the most recent version of "
               f"{PROJECT_NAME} (latest release or git HEAD), and include the "
               f"version number in your report."),
@@ -4363,8 +4363,11 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, PrintError):
         hbox.addWidget(toggle_cashaddr_control)
         gui_widgets.append((address_w, None))
 
-        gui_widgets.append((None, None)) # spacer
+        # spacer
+        gui_widgets.append((None, None))
         updatecheck_cb = QCheckBox(_("Automatically check for updates"))
+        # hide this option for now
+        updatecheck_cb.setVisible(False)
         updatecheck_cb.setChecked(self.gui_object.has_auto_update_check())
         updatecheck_cb.setToolTip(
             _("Enable this option if you wish to be notified as soon as a "
