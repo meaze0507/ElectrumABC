@@ -4,9 +4,9 @@
 build/
 dist/
 *.egg/
+*.egg-info/
 /electrum.py
 contrib/pyinstaller/
-Electron_Cash.egg-info/
 locale/
 .devlocaltmp/
 *_trial_temp

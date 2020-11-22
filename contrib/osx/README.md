@@ -24,6 +24,10 @@ Or, if you wish to sign the app when building, provide an Apple developer identi
 
     ./make_osx "Developer ID Application: MY NAME (123456789)"
 
+To find the identity string, use the following command:
+
+    security find-identity -v -p codesigning
+
 ## 2. Done
 
 You should see ElectrumABC.app and ElectrumABC-x.y.z.dmg in ../dist/. If you provided an identity for signing, these files can even be distributed to other Macs and they will run there without warnings from GateKeeper.
