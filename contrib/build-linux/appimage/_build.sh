@@ -118,7 +118,7 @@ mkdir -p "$CACHEDIR/pip_cache"
 
 
 info "Copying desktop integration"
-cp -fp "$PROJECT_ROOT/electrum-abc.desktop" "$APPDIR/electrum-abc.desktop"
+cp -fp "$PROJECT_ROOT/$SCRIPTNAME.desktop" "$APPDIR/$SCRIPTNAME.desktop"
 cp -fp "$PROJECT_ROOT/icons/electron-cash.png" "$APPDIR/electron-cash.png"
 
 

@@ -202,6 +202,7 @@ if [ "$GIT_REPO" != "$DEFAULT_GIT_REPO" ]; then
 fi
 export GIT_DIR_NAME=`basename $GIT_REPO`
 export PACKAGE="ElectrumABC"
+export SCRIPTNAME="electrum-abc"
 export PYI_SKIP_TAG="${PYI_SKIP_TAG:-0}" # Set this to non-zero to make PyInstaller skip tagging the bootloader
 
 # Build a command line argument for docker, enabling interactive mode if stdin

@@ -3,10 +3,10 @@
 
 set -e
 
-venv_dir=~/.electrum-abc-venv
 contrib=$(dirname "$0")
-
 . $contrib/base.sh || { echo "Cannot find base.sh" && exit 1; }
+
+venv_dir=~/.$SCRIPTNAME-venv
 
 which virtualenv > /dev/null 2>&1 || fail "Please install virtualenv"
 python3 -m hashin -h > /dev/null 2>&1 || { python3 -m pip install hashin --user; }
