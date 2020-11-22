@@ -35,7 +35,7 @@ directory. To run Electrum ABC from its root directory, just do::
 
 You can also install Electrum ABC on your system, by running this command::
 
-    pip3 setup.py install
+    pip3 install . --user
 
 This will download and install the Python dependencies used by
 Electrum ABC, instead of using the 'packages' directory.
@@ -50,7 +50,7 @@ Hardware Wallet - Ledger Nano S
 Electrum ABC natively support Ledger Nano S hardware wallet. If you plan to use
 you need an additional dependency, namely btchip. To install it run this command::
 
-    sudo pip3 install btchip-python
+    pip3 install btchip-python --user
 
 If you still have problems connecting to your Nano S please have a look at this
 `troubleshooting <https://support.ledger.com/hc/en-us/articles/115005165269-Fix-connection-issues>`_ section on Ledger website.
